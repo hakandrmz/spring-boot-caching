@@ -9,9 +9,3 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-    show-sql: true
-cache:
-  expirations:
-    movie: 3600
-    movies: 3600
