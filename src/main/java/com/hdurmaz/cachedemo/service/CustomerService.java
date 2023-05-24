@@ -35,26 +35,26 @@ public class CustomerService {
         return "Customer saved.";
     }
 
-    @Cacheable(value = "getCustomerByName", condition = "#name=='HakanDurmaz'")
+    @Cacheable(value = "customers", condition = "#name=='Hakan'")
     public List<Customer> getCustomerByName(String name) {
         Optional<List<Customer>> customerList = customerRepository.getCustomerByName(name);
         return customerList.orElseThrow(() -> new RuntimeException("Customer not found with name: " + name));
     }
 
-    @CachePut(cacheNames = "customer", key = "#customer.id") //updating cache
+    @CachePut(cacheNames = "customers", key = "#customer.id") //updating cache
     public String update(Customer customer) {
         customerRepository.save(customer);
         return "Customer saved with name:" + customer.getName();
     }
 
-    @Cacheable(value = "customer", key = "#customerId")
+    @Cacheable(value = "customers", key = "#customerId")
     public Customer getCustomer(int customerId) {
         log.info("Getting customer by id: " + customerId);
         Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
         return optionalCustomer.orElseThrow(() -> new RuntimeException("Customer not found with id: " + customerId));
     }
 
-    @CacheEvict(value = "customer",condition = "#id")
+    @CacheEvict(value = "customers",condition = "#id")
     public String delete(Integer id) {
         log.info("Deleting customer by id: " + id);
         customerRepository.deleteById(id);
