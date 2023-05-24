@@ -1,15 +1,19 @@
 package com.hdurmaz.cachedemo.controller;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import com.hdurmaz.cachedemo.config.LogPerformance;
 import com.hdurmaz.cachedemo.model.CreateCustomerRequest;
 import com.hdurmaz.cachedemo.model.Customer;
 import com.hdurmaz.cachedemo.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,11 +21,21 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final CacheManager cacheManager;
 
     @LogPerformance
     @GetMapping
     public ResponseEntity<Customer> get(@RequestParam Integer id) {
         return new ResponseEntity<>(customerService.getCustomer(id), HttpStatus.OK);
+    }
+
+    @LogPerformance
+    @GetMapping("get-caches")
+    public ResponseEntity<ConcurrentMap<Object, Object>> getCache() {
+        CaffeineCache caffeineCache = (CaffeineCache) cacheManager.getCache("customers");
+        Cache<Object, Object> nativeCache = caffeineCache.getNativeCache();
+        ConcurrentMap<Object, Object> cacheMap = nativeCache.asMap();
+        return new ResponseEntity<>(cacheMap,HttpStatus.OK);
     }
 
     @LogPerformance
