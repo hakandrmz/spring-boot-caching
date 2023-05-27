@@ -36,11 +36,10 @@ public class CustomerService {
     }
 
     @CachePut(cacheNames = "customers",
-            key = "#customer.id")
-    //updating cache
-    public String update(Customer customer) {
+            keyGenerator = "customerUpdateKeyGenerator")
+    public Customer update(Customer customer) {
         customerRepository.save(customer);
-        return "Customer saved with name:" + customer.getName();
+        return customer;
     }
 
     @Cacheable(value = "customers",

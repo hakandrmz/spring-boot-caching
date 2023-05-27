@@ -58,7 +58,7 @@ public class CustomerController {
 
     @LogPerformance
     @PutMapping
-    public ResponseEntity<String> update(@RequestBody Customer customer) {
+    public ResponseEntity<Customer> update(@RequestBody Customer customer) {
         return new ResponseEntity<>(customerService.update(customer), HttpStatus.OK);
     }
 

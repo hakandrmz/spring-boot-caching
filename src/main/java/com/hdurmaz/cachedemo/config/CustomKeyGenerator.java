@@ -5,12 +5,11 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 
-public class CustomCacheKeyGenerator implements KeyGenerator {
+public class CustomKeyGenerator implements KeyGenerator {
 
     @Override
     public Object generate(Object target, Method method, Object... params) {
-        return target.getClass()
-                .getSimpleName() + "_"
+        return target.getClass().getSimpleName() + "_"
                 + method.getName() + "_"
                 + StringUtils.arrayToDelimitedString(params, "_");
     }
