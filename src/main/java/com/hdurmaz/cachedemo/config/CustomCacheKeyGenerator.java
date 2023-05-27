@@ -5,7 +5,7 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 
-public class CustomKeyGenerator implements KeyGenerator {
+public class CustomCacheKeyGenerator implements KeyGenerator {
 
     @Override
     public Object generate(Object target, Method method, Object... params) {

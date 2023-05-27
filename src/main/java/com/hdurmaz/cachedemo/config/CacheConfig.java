@@ -11,7 +11,7 @@ public class CacheConfig {
 
     @Bean("customKeyGenerator")
     public KeyGenerator keyGenerator() {
-        return new CustomKeyGenerator();
+        return new CustomCacheKeyGenerator();
     }
 
     @Bean("customerKeyGenerator")
