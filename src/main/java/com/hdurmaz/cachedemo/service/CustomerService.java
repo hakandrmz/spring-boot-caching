@@ -26,29 +26,34 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    @Cacheable(value = "customers", condition = "#name=='Hakan'", keyGenerator = "customKeyGenerator")
+    @Cacheable(value = "customers",
+            condition = "#name=='Hakan'",
+            keyGenerator = "customKeyGenerator")
     public List<Customer> getCustomerByName(String name) {
         log.info("Fetching all customers with name 'Hakan'");
         Optional<List<Customer>> customerList = customerRepository.getCustomerByName(name);
         return customerList.orElseThrow(() -> new RuntimeException("Customer not found with name: " + name));
     }
 
-    @CachePut(cacheNames = "customers", keyGenerator = "customKeyGenerator")
+    @CachePut(cacheNames = "customers",
+            key = "#customer.id")
     //updating cache
     public String update(Customer customer) {
         customerRepository.save(customer);
         return "Customer saved with name:" + customer.getName();
     }
 
-    @Cacheable(value = "customers", keyGenerator = "customKeyGenerator")
-    public Customer getCustomer(int customerId) {
-        log.info("Getting customer by id: " + customerId);
-        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
-        return optionalCustomer.orElseThrow(() -> new RuntimeException("Customer not found with id: " + customerId));
+    @Cacheable(value = "customers",
+            keyGenerator = "customerKeyGenerator")
+    public Customer getCustomerById(int id) {
+        log.info("Getting customer by id: " + id);
+        Optional<Customer> optionalCustomer = customerRepository.findById(id);
+        return optionalCustomer.orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
     }
 
-    @CacheEvict(value = "customers", condition = "#id", keyGenerator = "customKeyGenerator")
-    public String delete(Integer id) {
+    @CacheEvict(value = "customers",
+            keyGenerator = "customerKeyGenerator")
+    public String delete(int id) {
         log.info("Deleting customer by id: " + id);
         customerRepository.deleteById(id);
         return "Deleted customer with id: " + id;

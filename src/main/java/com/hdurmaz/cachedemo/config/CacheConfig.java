@@ -33,4 +33,9 @@ public class CacheConfig {
     public KeyGenerator keyGenerator() {
         return new CustomKeyGenerator();
     }
+
+    @Bean("customerKeyGenerator")
+    public KeyGenerator customerKeyGenerator() {
+        return new CustomerCacheKeyGenerator();
+    }
 }

@@ -26,7 +26,7 @@ public class CustomerController {
     @LogPerformance
     @GetMapping
     public ResponseEntity<Customer> get(@RequestParam Integer id) {
-        return new ResponseEntity<>(customerService.getCustomer(id), HttpStatus.OK);
+        return new ResponseEntity<>(customerService.getCustomerById(id), HttpStatus.OK);
     }
 
     @LogPerformance
@@ -35,7 +35,7 @@ public class CustomerController {
         CaffeineCache caffeineCache = (CaffeineCache) cacheManager.getCache("customers");
         Cache<Object, Object> nativeCache = caffeineCache.getNativeCache();
         ConcurrentMap<Object, Object> cacheMap = nativeCache.asMap();
-        return new ResponseEntity<>(cacheMap,HttpStatus.OK);
+        return new ResponseEntity<>(cacheMap, HttpStatus.OK);
     }
 
     @LogPerformance
