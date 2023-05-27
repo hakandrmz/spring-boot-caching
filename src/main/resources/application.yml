@@ -1,11 +1,9 @@
 spring:
+  h2:
+    console.enabled: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/hdurmaz
-    password: hdurmaz
-    username: hdurmaz
+    username: sa
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
   jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.H2Dialect
